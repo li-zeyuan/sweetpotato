@@ -13,3 +13,13 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+dist/
+.temp/
+.rn_temp/
+node_modules/
+.DS_Store
+.idea/
+logs/
+vendor/
+.swc
