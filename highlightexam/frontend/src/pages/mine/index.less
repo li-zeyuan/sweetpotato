@@ -1,3 +1,5 @@
+
+
 .profile {
     display: flex;
     justify-content: center;
@@ -20,10 +22,46 @@
 
 .name {
     font-size: 40px;
-    margin-top: 5%;
+    margin-top: 8%;
 }
 
 .uid {
     font-size: 40px;
     margin-top: 5%;
 }
+
+#container {
+    display: grid;
+    grid-template-columns: repeat(3, 33.33%);
+    grid-template-rows: 300px;
+    justify-content: center;
+    align-content: center;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .item_text{
+        background-color: aliceblue;
+    }
+    
+    #study_record_img {
+        height: 200px;
+        width: 200px;
+    }
+
+    #study_num_input,#study_day_input {
+        height: auto;
+        width: auto;
+        text-align: center;
+        font-size: 80px;
+    }
+
+    #study_record_text {
+        margin-top: 12px;
+    }
+}
+
+
+

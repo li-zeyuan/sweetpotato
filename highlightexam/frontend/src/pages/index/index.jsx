@@ -1,9 +1,10 @@
 import { Component } from 'react'
-import { View, Text } from '@tarojs/components'
+import { View, Text,Image } from '@tarojs/components'
 import './index.less'
 import { AtButton, AtList, AtListItem } from 'taro-ui'
 import { knowledgeList, subjectList, studyDoing } from '../../api/api'
 import Taro from '@tarojs/taro'
+import * as images from '../../assets/images/index';
 import store from '../../utils/store'
 import mEnum from '../../utils/enum'
 
@@ -191,7 +192,8 @@ export default class Index extends Component {
 
     return (
       <View className='index' >
-        <Text>正在学习: </Text>
+        <Image className='list_titel_icon' src={images.subjectStudying} />
+        <Text className='list_titel'>正在学习: </Text>
         <AtList>
           <AtListItem
             onClick={() => { Taro.navigateTo({ url: `/pages/knowledge/index?subject_id=${studying.id}` }) }}

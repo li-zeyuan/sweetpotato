@@ -1,6 +1,9 @@
 package model
 
-import "github.com/li-zeyuan/common/model"
+import (
+	"github.com/li-zeyuan/common/model"
+	"time"
+)
 
 const (
 	GenderMan   = 1
@@ -14,13 +17,13 @@ const (
 
 type UserProfileTable struct {
 	model.BaseModel
-	Name             string // 用户昵称
-	Gender           int    // 性别
-	Portrait         string // 头像
-	Openid           string // WX用户openid
-	SessionKey       string // session_key
-	CurrentSubjectId int64  // 当前学习题库
-	StudyTotalDay    int    // 累计学习天数
-	StudyLastTime    int    // 最近学习时间
-	StudyNum         int    // 今日学习数量
+	Name             string    // 用户昵称
+	Gender           int       // 性别
+	Portrait         string    // 头像
+	Openid           string    // WX用户openid
+	SessionKey       string    // session_key
+	CurrentSubjectId int64     // 当前学习题库
+	StudyTotalDay    int       // 累计学习天数
+	StudyLastTime    time.Time // 最近学习时间
+	StudyNum         int       // 今日学习数量
 }

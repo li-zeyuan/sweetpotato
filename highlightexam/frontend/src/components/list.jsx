@@ -1,6 +1,7 @@
 import { View, ScrollView, Text } from '@tarojs/components'
 import { Component } from 'react'
 import { AtList, AtListItem } from 'taro-ui'
+import './list.less'
 
 export default class List extends Component {
     render() {
@@ -28,8 +29,7 @@ export default class List extends Component {
                         })
                     }
                 </AtList>
-
-                <View>{this.props.hasMore ? <Text>下拉加载更多</Text> : <Text>家人们到底了</Text>}</View>
+                <View id='page_tail'>{this.props.hasMore ? <Text>下拉加载更多</Text> : <Text>家人们到底了</Text>}</View>
             </ScrollView>
         )
     }

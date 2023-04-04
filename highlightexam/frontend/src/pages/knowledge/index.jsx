@@ -26,8 +26,6 @@ export default class Index extends Component {
   componentDidHide() { }
 
   dataLoading = () => {
-    console.log('dataloding')
-
     if (!this.state.hasMore & this.state.list.length > 0) {
       return
     }

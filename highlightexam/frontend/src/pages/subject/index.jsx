@@ -1,8 +1,9 @@
 import { Component } from 'react'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import { subjectList } from '../../api/api'
 import Taro from '@tarojs/taro'
 import { AtList, AtListItem } from 'taro-ui'
+import * as images from '../../assets/images/index';
 import './index.less'
 
 export default class Index extends Component {
@@ -47,7 +48,8 @@ export default class Index extends Component {
     return (
       <View className='index'>
         <View>
-          <Text>正在学习: </Text>
+          <Image className='list_titel_icon' src={images.subjectStudying} />
+          <Text className='list_titel'>正在学习: </Text>
           <AtList>
             <AtListItem
               onClick={() => { Taro.navigateTo({ url: `/pages/knowledge/index?subject_id=${studying.id}` }) }}
@@ -60,7 +62,8 @@ export default class Index extends Component {
         </View>
 
         <View className='otherSubject'>
-          <Text>其他题库: </Text>
+          <Image className='list_titel_icon' src={images.subjectOther} />
+          <Text className='list_titel'>其他题库: </Text>
           <AtList>
             {
               others.map((item) => {

@@ -1,7 +1,7 @@
 import { Component } from 'react'
-import { View, Text,Input } from '@tarojs/components'
+import { View, Text, Input, Image } from '@tarojs/components'
 import './index.less'
-import { AtAvatar, AtGrid } from 'taro-ui'
+import { AtAvatar, AtIcon } from 'taro-ui'
 import Taro from '@tarojs/taro'
 import store from '../../utils/store'
 import { userProfile } from '../../api/api'
@@ -15,7 +15,7 @@ export default class Index extends Component {
         gender: 0,
         portrait: '',
         currentSubjectId: 0,
-        studyTotal: 0,
+        studyTotalDay: 0,
         studyNum: 0
     };
 
@@ -41,10 +41,10 @@ export default class Index extends Component {
                             uid: res.data.data.uid,
                             name: res.data.data.name,
                             gender: res.data.data.gender,
-                            portrait: images.avatar,
+                            portrait: images.avatarBoy,
                             currentSubjectId: res.data.data.current_subject_id,
-                            studyTotal: res.data.data.study_total,
-                            studyNum: res.data.data.study_num
+                            studyTotalDay: res.data.data.study_total_day,
+                            studyNum: res.data.data.study_num // 设置学习数量
                         })
                     }
                 })
@@ -60,18 +60,15 @@ export default class Index extends Component {
 
     componentDidHide() { }
 
-    atGridOnClick(item, index) {
-        switch (index) {
-            case 1:
-                Taro.navigateTo({
-                    url: '/pages/studyrecord/index'
-                })
-                break
-        }
+    studyRecordOnClick = () => {
+        Taro.navigateTo({
+            url: '/pages/studyrecord/index'
+        })
     }
 
     render() {
-        const { portrait, name, uid, gender, currentSubjectId, studyTotal, studyNum } = this.state
+        const { portrait, name, uid, gender, currentSubjectId, studyTotalDay, studyNum } = this.state
+
         return (
             <View className='index'>
                 <View className='profile'>
@@ -80,22 +77,22 @@ export default class Index extends Component {
                     </View>
                     <View className='userInfo'>
                         <Text className='name'>姓名: {name}</Text>
-                        <Text className='uid'>uid: {uid % 10000000}</Text>
+                        <Text className='uid'>UID: {uid % 10000000}</Text>
                     </View>
                 </View>
 
-                <View>
-                    <View>
-                        <Input type='number' value={studyNum} />
-                        <Text>今日数量</Text>
+                <View id='container'>
+                    <View className='item'>
+                        <Input id='study_num_input' disabled type='number' value={studyNum} />
+                        <Text className='item_text'>今日数量</Text>
                     </View>
-                    <View>
-                        <Input type='number' value='0' />
-                        <Text>学习记录</Text>
+                    <View className='item'>
+                        <Input id='study_day_input' type='number' disabled value={studyTotalDay} />
+                        <Text className='item_text'>学习天数</Text>
                     </View>
-                    <View>
-                        <Text>{studyTotal}</Text>
-                        <Text>累计学习</Text>
+                    <View className='item' onClick={this.studyRecordOnClick}>
+                        <AtIcon id='study_record_img' value='list' size='50' color='black'></AtIcon>
+                        <Text className='item_text' id='study_record_text'>学习记录</Text>
                     </View>
                 </View>
             </View>
