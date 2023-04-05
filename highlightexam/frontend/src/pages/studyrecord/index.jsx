@@ -17,10 +17,13 @@ const Row = React.memo(({ id, index, data }) => {
 })
 
 export default class Index extends Component {
-    state = {
-        list: [],
-        hasMore: false
-    }
+    constructor(props) {
+        super(props)
+        this.state = {
+          list: [],
+          hasMore: false
+        }
+      }
 
     componentWillMount() {
         if (!store.Get(store.TokenKey)) {
@@ -30,13 +33,15 @@ export default class Index extends Component {
         }
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+
+    }
 
     componentWillUnmount() { }
 
     componentDidShow() {
         this.loadingData()
-     }
+    }
 
     componentDidHide() { }
 
@@ -47,9 +52,8 @@ export default class Index extends Component {
         })
             .then((res) => {
                 if (res.data.code === 0) {
-                    debugger
                     this.setState({
-                        list: res.data.data.list,
+                        list: this.state.list.concat(res.data.data.list),
                         hasMore: res.data.data.has_more
                     })
                 }
@@ -61,7 +65,6 @@ export default class Index extends Component {
                     duration: 500,
                 })
             })
-
     }
 
     render() {
