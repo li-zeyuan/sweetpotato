@@ -1,29 +1,18 @@
 import React, { Component } from 'react'
-import { View } from '@tarojs/components'
+import { View, ScrollView, Text } from '@tarojs/components'
 import './index.less'
 import VirtualList from "@tarojs/components/virtual-list";
-import { AtList, AtListItem } from 'taro-ui'
+import { AtList, AtDivider, AtProgress } from 'taro-ui'
 import Taro from '@tarojs/taro'
 import store from '../../utils/store'
 import { studyrecord } from '../../api/api'
 import myEnum from '../../utils/enum'
 
-const Row = React.memo(({ id, index, data }) => {
-    return (
-        <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'}>
-            Row {index} : {data[index]}
-        </View>
-    )
-})
-
 export default class Index extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-          list: [],
-          hasMore: false
-        }
-      }
+    state = {
+        list: [],
+        hasMore: true
+    }
 
     componentWillMount() {
         if (!store.Get(store.TokenKey)) {
@@ -40,15 +29,19 @@ export default class Index extends Component {
     componentWillUnmount() { }
 
     componentDidShow() {
-        this.loadingData()
+        this.loadingData(0)
     }
 
     componentDidHide() { }
 
-    loadingData = () => {
+    loadingData = (start) => {
+        if (!this.state.hasMore) {
+            return
+        }
+
         studyrecord({
-            start: 0,
-            limit: 20
+            start: start,
+            limit: myEnum.DefaultRequestLimit
         })
             .then((res) => {
                 if (res.data.code === 0) {
@@ -69,16 +62,35 @@ export default class Index extends Component {
 
     render() {
         const { list } = this.state
-        const dataLen = list.length
         return (
-            <VirtualList
-              height={800} /* 列表的高度 */
-              width='100%' /* 列表的宽度 */
-              item={Row} /* 列表单项组件，这里只能传入一个组件 */
-              itemData={list} /* 渲染列表的数据 */
-              itemCount={dataLen} /* 渲染列表的长度 */
-              itemSize={100} /* 列表单项的高度  */
-            />
+            <ScrollView
+                className='scrollview'
+                scrollY
+                enhanced
+                scrollWithAnimation
+                lowerThreshold={50}
+                onScrollToLower={() => {
+                    this.loadingData(this.state.list.length)
+                }}
+            >
+                {
+                    list.map((item) => {
+                        let percentNum = item.studied / item.total * 100
+                        return (
+                            <View className='item' key={item.subject_id}>
+                                <View className='item_text_container'>
+                                    <Text className='item_text'>{item.subject_name}</Text>
+                                    <Text className='item_total'>(总{item.total})</Text>
+                                </View>
+                                <AtProgress className='at-progress' percent={Math.round(percentNum)} />
+                                <AtDivider className='at-divider' height={10} />
+                            </View>
+
+                        )
+                    })
+                }
+
+            </ScrollView>
         )
     }
 }
