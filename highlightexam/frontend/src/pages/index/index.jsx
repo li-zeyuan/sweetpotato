@@ -1,12 +1,12 @@
 import { Component } from 'react'
-import { View, Text,Image } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import './index.less'
-import { AtButton, AtList, AtListItem } from 'taro-ui'
+import { AtButton } from 'taro-ui'
 import { knowledgeList, subjectList, studyDoing } from '../../api/api'
 import Taro from '@tarojs/taro'
-import * as images from '../../assets/images/index';
 import store from '../../utils/store'
 import mEnum from '../../utils/enum'
+import Studying from '../../components/studying'
 
 export default class Index extends Component {
   state = {
@@ -23,8 +23,8 @@ export default class Index extends Component {
     },
     knowledge: {
       id: 0,
-      name: 'Highlight事考',
-      description: '致力于未来市长、书记、厅长您，顺利上岸！',
+      name: mEnum.DefaultKnowledgeName,
+      description: mEnum.DefaultKnowledgeDescription,
       other: {}
     }
   }
@@ -101,7 +101,7 @@ export default class Index extends Component {
                 knowledge: {
                   id: mEnum.FinishKnowledgeID,
                   name: mEnum.FinishKnowledgeName,
-                  description: '',
+                  description: mEnum.FinishKnowledgeDescription,
                   other: ''
                 }
               })
@@ -126,7 +126,7 @@ export default class Index extends Component {
     }
 
     if (this.state.knowledge.id === mEnum.FinishKnowledgeID) {
-      // todo show toast
+      this.studyFinish()
       return
     }
   }
@@ -140,7 +140,7 @@ export default class Index extends Component {
     }
 
     if (this.state.knowledge.id === mEnum.FinishKnowledgeID) {
-      // todo show toast
+      this.studyFinish()
       return
     }
 
@@ -165,17 +165,20 @@ export default class Index extends Component {
               }
             })
           } else {
+
             this.setState({
               knowledge: {
                 id: mEnum.FinishKnowledgeID,
                 name: mEnum.FinishKnowledgeName,
-                description: '',
+                description: mEnum.FinishKnowledgeDescription,
                 other: {}
               }
-            })
+            },
+              () => {
+                this.studyFinish()
+              }
+            )
           }
-
-
         }
       })
       .catch((err) => {
@@ -187,22 +190,32 @@ export default class Index extends Component {
       })
   }
 
+  studyFinish = () => {
+    if (this.state.knowledge.id !== mEnum.FinishKnowledgeID) {
+      return
+    }
+
+    setTimeout(() => {
+      Taro.switchTab({
+        url: '/pages/subject/index'
+      })
+    }, 2000);
+
+    Taro.showToast({
+      title: '恭喜您学习完成',
+      icon: 'success',
+      duration: 2000,
+    })
+  }
+
   render() {
-    var { studying, knowledge } = this.state
+    const { studying, knowledge } = this.state
 
     return (
       <View className='index' >
-        <Image className='list_titel_icon' src={images.subjectStudying} />
-        <Text className='list_titel'>正在学习: </Text>
-        <AtList>
-          <AtListItem
-            onClick={() => { Taro.navigateTo({ url: `/pages/knowledge/index?subject_id=${studying.id}` }) }}
-            title={studying.name}
-            arrow='right'
-            note={studying.description}
-            extraText='详情'
-          />
-        </AtList>
+        <Studying
+          studying={studying}
+        />
 
         <View className='learning'>
           <Text className='knowledgeName'>{knowledge.name}</Text>

@@ -12,3 +12,42 @@
     width: 70px;
     margin-right: 10px;
 }
+
+.other_subject_list {
+    display: flex;
+    flex-direction: column;
+
+    .other_subject_list_item {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 24px;
+
+        .other_subject_list_item_text {
+            display: flex;
+            flex-direction: column;
+            width: 450px;
+            height: 90px;
+
+            .other_subject_list_item_name {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: inherit;
+                font-size: inherit;
+                line-height: 1.5;
+            }
+
+            .other_subject_list_item_description {
+                white-space: nowrap;
+                overflow-y: scroll;
+                color: #999;
+                font-size: 28rpx;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    .other_subject_list_item_study_btn {}
+
+    .other_subject_list_item_detail_btn {}
+}

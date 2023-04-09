@@ -37,7 +37,7 @@ func (l *loginService) WeChatLogin(ctx context.Context, req *model.WeChatLoginRe
 	if err == gorm.ErrRecordNotFound {
 		userProfile = new(model2.UserProfileTable)
 		userProfile.ID = sequence.NewID()
-		userProfile.Name = fmt.Sprintf("husband_%d", userProfile.ID%1000000)
+		userProfile.Name = fmt.Sprintf("husband_%d", userProfile.ID%1000)
 		userProfile.Openid = wxSession.OpenId
 		userProfile.SessionKey = wxSession.SessionKey
 		userProfile.StudyNum = model2.DefaultStudyNum

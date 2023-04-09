@@ -2,8 +2,9 @@ import { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { subjectList } from '../../api/api'
 import Taro from '@tarojs/taro'
-import { AtList, AtListItem } from 'taro-ui'
-import * as images from '../../assets/images/index';
+import { AtButton, AtDivider, AtListItem } from 'taro-ui'
+import * as images from '../../assets/images/index'
+import Studying from '../../components/studying'
 import './index.less'
 
 export default class Index extends Component {
@@ -39,32 +40,56 @@ export default class Index extends Component {
 
   componentDidHide() { }
 
-  atListItemOnClick(a) {
-    console.log(a)
-  }
-
   render() {
     const { studying, others } = this.state
     return (
       <View className='index'>
-        <View>
-          <Image className='list_titel_icon' src={images.subjectStudying} />
-          <Text className='list_titel'>正在学习: </Text>
-          <AtList>
-            <AtListItem
-              onClick={() => { Taro.navigateTo({ url: `/pages/knowledge/index?subject_id=${studying.id}` }) }}
-              title={studying.name}
-              arrow='right'
-              note={studying.description}
-              extraText='详情'
-            />
-          </AtList>
-        </View>
+        <Studying
+          studying={studying}
+        />
 
         <View className='otherSubject'>
           <Image className='list_titel_icon' src={images.subjectOther} />
           <Text className='list_titel'>其他题库: </Text>
-          <AtList>
+          <View className='other_subject_list'>
+            <AtDivider height={10} />
+            {
+              others.map((item) => {
+                return (
+                  <View className='other_subject_list_item' key={item.id}>
+                    <View className='other_subject_list_item_text'>
+                      <Text className='other_subject_list_item_name'>{item.name}</Text>
+                      <Text className='other_subject_list_item_description'>{item.description}</Text>
+                    </View>
+                    <AtButton
+                      className='other_subject_list_item_study_btn'
+                      circle
+                      type='primary'
+                      size='small'
+                      onClick={() => {
+                        // todo change current study subject
+                      }}
+                    >学习</AtButton>
+                    <AtButton
+                      className='other_subject_list_item_detail_btn'
+                      circle
+                      type='secondary'
+                      size='small'
+                      onClick={() => {
+                        Taro.navigateTo({
+                          url: `/pages/knowledge/index?subject_id=${item.id}`
+                        })
+                      }}
+                    >详情</AtButton>
+                  </View>
+
+                )
+              })
+            }
+          </View>
+
+
+          {/* <AtList>
             {
               others.map((item) => {
                 return (
@@ -79,7 +104,7 @@ export default class Index extends Component {
                 )
               })
             }
-          </AtList>
+          </AtList> */}
         </View>
       </View>
     )

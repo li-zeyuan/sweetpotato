@@ -7,6 +7,7 @@ import Taro from '@tarojs/taro'
 import store from '../../utils/store'
 import { studyrecord } from '../../api/api'
 import myEnum from '../../utils/enum'
+import PageTail from '../../components/page_tail'
 
 export default class Index extends Component {
     state = {
@@ -63,34 +64,39 @@ export default class Index extends Component {
     render() {
         const { list } = this.state
         return (
-            <ScrollView
-                className='scrollview'
-                scrollY
-                enhanced
-                scrollWithAnimation
-                lowerThreshold={50}
-                onScrollToLower={() => {
-                    this.loadingData(this.state.list.length)
-                }}
-            >
-                {
-                    list.map((item) => {
-                        let percentNum = item.studied / item.total * 100
-                        return (
-                            <View className='item' key={item.subject_id}>
-                                <View className='item_text_container'>
-                                    <Text className='item_text'>{item.subject_name}</Text>
-                                    <Text className='item_total'>(总{item.total})</Text>
+            <View>
+                <ScrollView
+                  className='scrollview'
+                  scrollY
+                  enhanced
+                  scrollWithAnimation
+                  lowerThreshold={50}
+                  onScrollToLower={() => {
+                      this.loadingData(this.state.list.length)
+                  }}
+                >
+                    {
+                        list.map((item) => {
+                            let percentNum = item.studied / item.total * 100
+                            return (
+                                <View className='item' key={item.subject_id}>
+                                    <View className='item_text_container'>
+                                        <Text className='item_text'>{item.subject_name}</Text>
+                                        <Text className='item_total'>(总{item.total})</Text>
+                                    </View>
+                                    <AtProgress className='at-progress' percent={Math.round(percentNum)} />
+                                    <AtDivider className='at-divider' height={10} />
                                 </View>
-                                <AtProgress className='at-progress' percent={Math.round(percentNum)} />
-                                <AtDivider className='at-divider' height={10} />
-                            </View>
 
-                        )
-                    })
-                }
+                            )
+                        })
+                    }
+                </ScrollView>
+                <PageTail
+                  hasMore={this.state.hasMore}
+                />
+            </View>
 
-            </ScrollView>
         )
     }
 }
