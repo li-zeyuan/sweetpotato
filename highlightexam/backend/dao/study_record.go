@@ -3,6 +3,9 @@ package dao
 import (
 	"context"
 	"fmt"
+
+	"github.com/li-zeyuan/common/utils"
+
 	comModel "github.com/li-zeyuan/common/model"
 	"github.com/li-zeyuan/common/mylogger"
 	"github.com/li-zeyuan/common/mysqlstore"
@@ -63,4 +66,18 @@ func (s *StudyRecord) Upsert(ctx context.Context, m *model.StudyRecordTable) err
 	return nil
 }
 
+func (s *StudyRecord) TodayStudyNum(ctx context.Context, uid int64) (int64, error) {
+	var num int64
+	err := mysqlstore.Db.Table(model.TableNameStudyRecord).
+		WithContext(ctx).
+		Where("uid = ?", uid).
+		Where(comModel.DefaultDelCondition).
+		Where(comModel.ColumnUpdatedAt+" > ?", utils.TodayStartUTC()).
+		Count(&num).Error
+	if err != nil {
+		mylogger.Error(ctx, "get today study record num error: ", zap.Error(err))
+		return 0, err
+	}
 
+	return num, nil
+}

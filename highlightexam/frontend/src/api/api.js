@@ -32,6 +32,14 @@ export function subjectList(data) {
     )
 }
 
+export function study(data) {
+    return request(
+        'put',
+        '/api/subject/study',
+        data
+    )
+}
+
 export function subjectDetail(data) {
     return request(
         'get',

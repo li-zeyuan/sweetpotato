@@ -3,9 +3,10 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"gorm.io/gorm"
 	"math/rand"
 	"time"
+
+	"gorm.io/gorm"
 
 	comModel "github.com/li-zeyuan/common/model"
 	"github.com/li-zeyuan/common/mylogger"
@@ -111,7 +112,7 @@ func shuffleKnowledgeList(list []*model.StudyKnowledgeItem) {
 	})
 }
 
-func (s *studyService) Doing(ctx context.Context, uid int64, params *model.StudyDoingReq) error {
+func (s *studyService) Doing(ctx context.Context, uid int64, params *model.StudyDoingReq) (*model.StudyDoingResp, error) {
 	record := new(model.StudyRecordTable)
 	record.CreatedAt = utils.NowUTC()
 	record.ID = sequence.NewID()
@@ -121,25 +122,32 @@ func (s *studyService) Doing(ctx context.Context, uid int64, params *model.Study
 
 	err := dao.D.StudyRecord.Upsert(ctx, record)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	lastTime, err := dao.D.User.StudyLastTime(ctx, uid)
+	user, err := dao.D.User.GetOne(ctx, uid)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	fieldMap := make(map[string]interface{}, 2)
 	fieldMap["study_last_time"] = utils.NowUTC()
-	if lastTime.Before(utils.TodayStartUTC()) {
+	if user.StudyLastTime.Before(utils.TodayStartUTC()) {
 		fieldMap["study_total_day"] = gorm.Expr("study_total_day + ?", 1)
 	}
 
 	err = dao.D.User.Update(ctx, uid, fieldMap)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
+	todayStudyNum, err := dao.D.StudyRecord.TodayStudyNum(ctx, uid)
+	if err != nil {
+		return nil, err
+	}
 
-	return nil
+	resp := new(model.StudyDoingResp)
+	resp.IsCompletedToday = todayStudyNum >= int64(user.StudyNum)
+
+	return resp, nil
 }

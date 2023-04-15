@@ -18,3 +18,7 @@ type SubjectDetailReq struct {
 	Start int   `form:"start"`
 	Limit int   `form:"limit"`
 }
+
+type SubjectStudyReq struct {
+	ID int64 `json:"id" validate:"required"`
+}

@@ -18,13 +18,12 @@ type subjectService struct{}
 func (s *subjectService) List(ctx context.Context, uid int64) (*model.SubjectListResp, error) {
 	var currentSubjectId int64
 	if uid > 0 {
-		userProfile, err := dao.D.User.GetOne(ctx ,uid)
+		userProfile, err := dao.D.User.GetOne(ctx, uid)
 		if err != nil {
 			return nil, err
 		}
 		currentSubjectId = userProfile.CurrentSubjectId
 	}
-
 
 	subjects, err := dao.D.Subject.List(ctx)
 	if err != nil {
@@ -56,7 +55,7 @@ func (s *subjectService) List(ctx context.Context, uid int64) (*model.SubjectLis
 }
 
 func (s *subjectService) Detail(ctx context.Context, req *model.SubjectDetailReq) (*model.KnowledgeListResp, error) {
-	knowledgeList, err := dao.D.Knowledge.ListBySubjectID(ctx ,req.ID, req.Start, req.Limit)
+	knowledgeList, err := dao.D.Knowledge.ListBySubjectID(ctx, req.ID, req.Start, req.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -84,4 +83,21 @@ func (s *subjectService) Detail(ctx context.Context, req *model.SubjectDetailReq
 	}
 
 	return resp, nil
+}
+
+func (s *subjectService) Study(ctx context.Context, uid int64, req *model.SubjectStudyReq) error {
+	subject, err := dao.D.Subject.GetById(ctx, req.ID)
+	if err != nil {
+		return err
+	}
+
+	fieldMap := map[string]interface{}{
+		"current_subject_id": subject.ID,
+	}
+	err = dao.D.User.Update(ctx, uid, fieldMap)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

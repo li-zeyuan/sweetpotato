@@ -10,13 +10,14 @@ import Studying from '../../components/studying'
 
 export default class Index extends Component {
   state = {
+    isShowTodayCompleted: false,
     studying: {
       id: 0,
       name: '',
       description: '',
     },
     willStudyKnowledge: {
-      index: 0,
+      idx: 0,
       list: [],
       hasMore: false,
       hasStudied: 0
@@ -83,7 +84,8 @@ export default class Index extends Component {
               willStudyKnowledge: {
                 list: list,
                 hasStudied: res.data.data.has_studied,
-                hasMore: res.data.data.has_more
+                hasMore: res.data.data.has_more,
+                // idx: this.state.willStudyKnowledge.idx
               }
             })
 
@@ -102,7 +104,7 @@ export default class Index extends Component {
                   id: mEnum.FinishKnowledgeID,
                   name: mEnum.FinishKnowledgeName,
                   description: mEnum.FinishKnowledgeDescription,
-                  other: ''
+                  other: {}
                 }
               })
             }
@@ -150,12 +152,25 @@ export default class Index extends Component {
     })
       .then((res) => {
         if (res.data.code === 0) {
+          // show completed today study num
+          if (!this.state.isShowTodayCompleted && res.data.data.is_completed_today) {
+            Taro.showToast({
+              title: "今日学习已完成",
+              icon: 'success',
+              duration: 2000,
+            })
+
+            this.setState({
+              isShowTodayCompleted: true,
+            })
+          }
+
           const willK = this.state.willStudyKnowledge
-          if (willK.index < willK.list.length) {
-            const k = willK.list[willK.index++]
+          if (willK.idx < willK.list.length) {
+            const k = willK.list[willK.idx++]
             this.setState({
               willStudyKnowledge: {
-                index: this.state.willStudyKnowledge.index + 1
+                idx: this.state.willStudyKnowledge.idx + 1
               },
               knowledge: {
                 id: k.id,
@@ -165,7 +180,6 @@ export default class Index extends Component {
               }
             })
           } else {
-
             this.setState({
               knowledge: {
                 id: mEnum.FinishKnowledgeID,
@@ -174,9 +188,7 @@ export default class Index extends Component {
                 other: {}
               }
             },
-              () => {
-                this.studyFinish()
-              }
+              this.studyFinish
             )
           }
         }
@@ -218,6 +230,7 @@ export default class Index extends Component {
         />
 
         <View className='learning'>
+          <Text className='pinyin'>{knowledge.other.pinyin ? "[" + knowledge.other.pinyin + "]" : ""}</Text>
           <Text className='knowledgeName'>{knowledge.name}</Text>
           <Text className='knowledgeDescription'>{knowledge.description}</Text>
 

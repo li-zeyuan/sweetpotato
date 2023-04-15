@@ -36,3 +36,13 @@ func TestUpsert(t *testing.T) {
 		})
 	}
 }
+
+func TestTodayStudyNum(t *testing.T) {
+	ctx, err := testdata.InitServer()
+	assert.Nil(t, err)
+
+	s := StudyRecord{}
+	num, err := s.TodayStudyNum(ctx, 100000000000000000)
+	assert.Nil(t, err)
+	assert.Equal(t, num > 0, true)
+}

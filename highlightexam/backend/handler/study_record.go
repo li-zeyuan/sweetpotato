@@ -59,11 +59,11 @@ func (s *study) Doing(c *gin.Context) {
 		return
 	}
 
-	err = service.Study.Doing(c.Request.Context(), uid, req)
+	resp, err := service.Study.Doing(c.Request.Context(), uid, req)
 	if err != nil {
 		httptransfer.ErrJSONResp(c, http.StatusInternalServerError, err)
 		return
 	}
 
-	httptransfer.SuccJSONResp(c, nil)
+	httptransfer.SuccJSONResp(c, resp)
 }

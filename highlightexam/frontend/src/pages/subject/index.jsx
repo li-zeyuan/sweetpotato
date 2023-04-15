@@ -1,8 +1,8 @@
 import { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { subjectList } from '../../api/api'
+import { study, subjectList } from '../../api/api'
 import Taro from '@tarojs/taro'
-import { AtButton, AtDivider, AtListItem } from 'taro-ui'
+import { AtButton, AtDivider } from 'taro-ui'
 import * as images from '../../assets/images/index'
 import Studying from '../../components/studying'
 import './index.less'
@@ -13,7 +13,19 @@ export default class Index extends Component {
     others: []
   }
 
-  componentWillMount() {
+  componentWillMount() { }
+
+  componentDidMount() { }
+
+  componentWillUnmount() { }
+
+  componentDidShow() {
+    this.loadSubjectList()
+  }
+
+  componentDidHide() { }
+
+  loadSubjectList = () => {
     subjectList({})
       .then((res) => {
         if (res.data.code === 0) {
@@ -32,13 +44,25 @@ export default class Index extends Component {
       })
   }
 
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
+  handleStudyClick = (id) => {
+    study({
+      id: id
+    })
+      .then((res) => {
+        if (res.data.code === 0) {
+          Taro.switchTab({
+            url: '/pages/index/index'
+          })
+        }
+      })
+      .catch((err) => {
+        Taro.showToast({
+          title: err.message,
+          icon: 'error',
+          duration: 500,
+        })
+      })
+  }
 
   render() {
     const { studying, others } = this.state
@@ -67,7 +91,7 @@ export default class Index extends Component {
                       type='primary'
                       size='small'
                       onClick={() => {
-                        // todo change current study subject
+                        this.handleStudyClick(item.id)
                       }}
                     >学习</AtButton>
                     <AtButton

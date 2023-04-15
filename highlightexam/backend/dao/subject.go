@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+
 	comModel "github.com/li-zeyuan/common/model"
 	"github.com/li-zeyuan/common/mylogger"
 	"github.com/li-zeyuan/common/mysqlstore"
@@ -11,6 +12,21 @@ import (
 
 type Subject struct{}
 
+func (s *Subject) GetById(ctx context.Context, id int64) (*model.SubjectTable, error) {
+	subject := new(model.SubjectTable)
+	err := mysqlstore.Db.Table(model.TableNameSubject).
+		WithContext(ctx).
+		Where("id = ?", id).
+		Where(comModel.DefaultDelCondition).
+		Find(&subject).Error
+	if err != nil {
+		mylogger.Error(ctx, "get one subject by id error: ", zap.Error(err))
+		return nil, err
+	}
+
+	return subject, nil
+}
+
 func (s *Subject) List(ctx context.Context) ([]*model.SubjectTable, error) {
 	subjects := make([]*model.SubjectTable, 0)
 	err := mysqlstore.Db.Table(model.TableNameSubject).
@@ -19,7 +35,7 @@ func (s *Subject) List(ctx context.Context) ([]*model.SubjectTable, error) {
 		Order(comModel.UpdatedAtDESCCondition).
 		Find(&subjects).Error
 	if err != nil {
-		mylogger.Error(ctx ,"get all subject error: ", zap.Error(err))
+		mylogger.Error(ctx, "get all subject error: ", zap.Error(err))
 		return nil, err
 	}
 
@@ -28,7 +44,7 @@ func (s *Subject) List(ctx context.Context) ([]*model.SubjectTable, error) {
 
 func (s *Subject) MapByIds(ctx context.Context, ids []int64) (map[int64]*model.SubjectTable, error) {
 	if len(ids) == 0 {
-		return nil ,nil
+		return nil, nil
 	}
 
 	subjects := make([]*model.SubjectTable, 0)

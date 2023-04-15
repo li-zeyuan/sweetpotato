@@ -11,9 +11,9 @@ import (
 
 var SubjectHandler = subject{}
 
-type subject struct {}
+type subject struct{}
 
-func (s *subject)List(c *gin.Context) {
+func (s *subject) List(c *gin.Context) {
 	uid := httptransfer.GetUid(c)
 	subjects, err := service.Subject.List(c.Request.Context(), uid)
 	if err != nil {
@@ -24,11 +24,11 @@ func (s *subject)List(c *gin.Context) {
 	httptransfer.SuccJSONResp(c, subjects)
 }
 
-func (s *subject)Detail(c *gin.Context) {
+func (s *subject) Detail(c *gin.Context) {
 	req := new(model.SubjectDetailReq)
 	err := httptransfer.ParseQuery(c, req)
 	if err != nil {
-		httptransfer.ErrJSONResp(c,http.StatusInternalServerError, err)
+		httptransfer.ErrJSONResp(c, http.StatusInternalServerError, err)
 		return
 	}
 
@@ -41,7 +41,20 @@ func (s *subject)Detail(c *gin.Context) {
 	httptransfer.SuccJSONResp(c, resp)
 }
 
-func (s *subject)Study(c *gin.Context) {
+func (s *subject) Study(c *gin.Context) {
+	uid := httptransfer.GetUid(c)
+	req := new(model.SubjectStudyReq)
+	err := httptransfer.ParseBody(c, req)
+	if err != nil {
+		httptransfer.ErrJSONResp(c, http.StatusInternalServerError, err)
+		return
+	}
 
+	err = service.Subject.Study(c.Request.Context(), uid, req)
+	if err != nil {
+		httptransfer.ErrJSONResp(c, http.StatusInternalServerError, err)
+		return
+	}
+
+	httptransfer.SuccJSONResp(c, struct{}{})
 }
-

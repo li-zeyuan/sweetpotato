@@ -38,3 +38,7 @@ type StudyDoingReq struct {
 	SubjectID   int64 `json:"subject_id" validate:"gt=0"`
 	KnowledgeID int64 `json:"knowledge_id" validate:"gt=0"`
 }
+
+type StudyDoingResp struct {
+	IsCompletedToday bool `json:"is_completed_today"`
+}

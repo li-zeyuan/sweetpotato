@@ -24,13 +24,18 @@ export default function request(method, url, data) {
             }
             case 'post': {
                 apiUrl += url
+                break
+            }
+            case 'put': {
+                apiUrl += url
+                break
             }
         }
 
         Taro.request({
             method: method,
             url: apiUrl,
-            data: method == 'post' ? data : {},
+            data: (method == 'post') || (method == 'put')  ? data : {},
             header: { 'Authorization': token },
             success: function (res) {
                 if (config.skipToLoginCode.includes(res.code)) {
