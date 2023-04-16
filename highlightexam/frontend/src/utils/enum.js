@@ -5,5 +5,5 @@ export default {
     DefaultKnowledgeName: 'Highlight事考',
     DefaultKnowledgeDescription: '致力于未来市长、书记、厅长您，顺利上岸！',
 
-    DefaultRequestLimit: 50
+    DefaultRequestLimit: 20
 }

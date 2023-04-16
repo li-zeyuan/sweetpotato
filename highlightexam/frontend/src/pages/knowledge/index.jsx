@@ -67,7 +67,7 @@ export default class Index extends Component {
         <List
           hasMore={this.state.hasMore}
           list={this.state.list}
-          scrollStyle={{ height: 500 }}
+          scrollStyle={{ height: '680px' }}
           onScrollToLower={this.dataLoading}
         />
       </View>

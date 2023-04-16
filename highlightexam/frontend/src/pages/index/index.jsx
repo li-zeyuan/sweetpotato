@@ -6,22 +6,19 @@ import { knowledgeList, subjectList, studyDoing } from '../../api/api'
 import Taro from '@tarojs/taro'
 import store from '../../utils/store'
 import mEnum from '../../utils/enum'
+import num from '../../utils/num'
 import Studying from '../../components/studying'
 
 export default class Index extends Component {
   state = {
     isShowTodayCompleted: false,
+    studyKnowledgeIndex: 0,
     studying: {
       id: 0,
       name: '',
       description: '',
     },
-    willStudyKnowledge: {
-      idx: 0,
-      list: [],
-      hasMore: false,
-      hasStudied: 0
-    },
+    willStudyKnowledge: {},
     knowledge: {
       id: 0,
       name: mEnum.DefaultKnowledgeName,
@@ -63,6 +60,7 @@ export default class Index extends Component {
         }
       })
       .catch((err) => {
+        console.log(err)
         Taro.showToast({
           title: err.message,
           icon: 'error',
@@ -79,16 +77,12 @@ export default class Index extends Component {
       })
         .then((res) => {
           if (res.data.code === 0) {
-            const list = res.data.data.list
             this.setState({
-              willStudyKnowledge: {
-                list: list,
-                hasStudied: res.data.data.has_studied,
-                hasMore: res.data.data.has_more,
-                // idx: this.state.willStudyKnowledge.idx
-              }
+              studyKnowledgeIndex: 0,
+              willStudyKnowledge: res.data.data,
             })
 
+            const list = res.data.data.list
             if (list.length) {
               this.setState({
                 knowledge: {
@@ -111,6 +105,7 @@ export default class Index extends Component {
           }
         })
         .catch((err) => {
+          console.log("getKnowledgeList", err)
           Taro.showToast({
             title: err.message,
             icon: 'error',
@@ -125,12 +120,29 @@ export default class Index extends Component {
       Taro.navigateTo({
         url: '/pages/login/index'
       })
-    }
-
-    if (this.state.knowledge.id === mEnum.FinishKnowledgeID) {
+    } else if (this.state.knowledge.id === mEnum.FinishKnowledgeID) {
       this.studyFinish()
       return
+    } else {
+      let idx = this.state.studyKnowledgeIndex
+      let kList = this.state.willStudyKnowledge.list
+      // last index
+      if (idx + 1 == kList.length) {
+        return
+      }
+
+      let forgetK = kList[idx]
+      let swapIdx = num.Random(idx + 1, kList.length - 1)
+      let tailK = kList[swapIdx]
+      kList[idx] = tailK
+      kList[swapIdx] = forgetK
+
+      this.setState({
+        knowledge: tailK
+      })
     }
+
+
   }
   knowOnClick = () => {
     if (this.state.knowledge.id === 0) {
@@ -166,12 +178,11 @@ export default class Index extends Component {
           }
 
           const willK = this.state.willStudyKnowledge
-          if (willK.idx < willK.list.length) {
-            const k = willK.list[willK.idx++]
+          let index = this.state.studyKnowledgeIndex
+          if (index + 1 < willK.list.length) {
+            const k = willK.list[index + 1]
             this.setState({
-              willStudyKnowledge: {
-                idx: this.state.willStudyKnowledge.idx + 1
-              },
+              studyKnowledgeIndex: index + 1,
               knowledge: {
                 id: k.id,
                 name: k.name,
@@ -180,20 +191,22 @@ export default class Index extends Component {
               }
             })
           } else {
-            this.setState({
-              knowledge: {
-                id: mEnum.FinishKnowledgeID,
-                name: mEnum.FinishKnowledgeName,
-                description: mEnum.FinishKnowledgeDescription,
-                other: {}
-              }
-            },
+            this.setState(
+              {
+                knowledge: {
+                  id: mEnum.FinishKnowledgeID,
+                  name: mEnum.FinishKnowledgeName,
+                  description: mEnum.FinishKnowledgeDescription,
+                  other: {}
+                }
+              },
               this.studyFinish
             )
           }
         }
       })
       .catch((err) => {
+        console.log("study doing error: ", err)
         Taro.showToast({
           title: err.message,
           icon: 'error',

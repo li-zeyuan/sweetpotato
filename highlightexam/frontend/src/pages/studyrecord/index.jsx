@@ -70,11 +70,13 @@ export default class Index extends Component {
                   scrollY
                   enhanced
                   scrollWithAnimation
+                  style={{height:"680px"}}
                   lowerThreshold={50}
                   onScrollToLower={() => {
                       this.loadingData(this.state.list.length)
                   }}
                 >
+                    <View>
                     {
                         list.map((item) => {
                             let percentNum = item.studied / item.total * 100
@@ -87,14 +89,15 @@ export default class Index extends Component {
                                     <AtProgress className='at-progress' percent={Math.round(percentNum)} />
                                     <AtDivider className='at-divider' height={10} />
                                 </View>
-
                             )
                         })
                     }
+                    </View>
+                    <PageTail
+                      hasMore={this.state.hasMore}
+                    />
                 </ScrollView>
-                <PageTail
-                  hasMore={this.state.hasMore}
-                />
+                
             </View>
 
         )
