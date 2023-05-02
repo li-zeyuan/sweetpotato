@@ -5,4 +5,4 @@ ifeq ($(BUILD_TAG),$(EMPTY))
 endif
 
 docker-build:
-	docker build --rm --tag sweetpotato-highlightexam-backend:$(BUILD_TAG) .
+	docker build --rm --tag sweetpotato-highlightexam-backend:latest .
