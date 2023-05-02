@@ -8,5 +8,5 @@ RUN go build -o /app/sweetpotato-highlightexam-backend
 FROM alpine
 WORKDIR /app
 COPY --from=builder /app/sweetpotato-highlightexam-backend /app/sweetpotato-highlightexam-backend
-RUN chmod +x /apps/tracing-query
+RUN chmod +x /apps/sweetpotato-highlightexam-backend
 ENTRYPOINT ["/apps/sweetpotato-highlightexam-backend", "run --config /apps/config.yaml"]
