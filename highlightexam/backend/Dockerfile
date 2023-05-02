@@ -1,9 +1,9 @@
 FROM golang:1.17.0-alpine AS builder
 WORKDIR /app
 ADD . ./
-RUN go env -w GOPROXY=https://goproxy.cn,direct
-RUN go mod download && \
-    go build -o ./sweetpotato-highlightexam-backend
+RUN go env -w GOPROXY=https://goproxy.cn
+RUN go mod download
+RUN go build -o ./sweetpotato-highlightexam-backend
 
 # 分段构建，image大小从560M到25M
 FROM alpine
