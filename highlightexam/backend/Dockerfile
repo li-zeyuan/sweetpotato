@@ -1,12 +1,12 @@
 FROM golang:1.17.0-alpine AS builder
-WORKDIR /app
+WORKDIR /apps
 ADD . ./
 
-RUN go build -o /app/sweetpotato-highlightexam-backend
+RUN go build -o /apps/sweetpotato-highlightexam-backend
 
 # 分段构建，image大小从560M到25M
 FROM alpine
-WORKDIR /app
-COPY --from=builder /app/sweetpotato-highlightexam-backend /app/sweetpotato-highlightexam-backend
+WORKDIR /apps
+COPY --from=builder /apps/sweetpotato-highlightexam-backend /apps/sweetpotato-highlightexam-backend
 RUN chmod +x /apps/sweetpotato-highlightexam-backend
 ENTRYPOINT ["/apps/sweetpotato-highlightexam-backend", "run --config /apps/config.yaml"]
