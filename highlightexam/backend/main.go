@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
-const serverName = "government_exam"
+const serverName = "highlight-exam"
 
 func main() {
 	rootCmd := &cobra.Command{

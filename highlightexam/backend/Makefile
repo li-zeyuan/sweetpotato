@@ -4,5 +4,5 @@ ifeq ($(BUILD_TAG),$(EMPTY))
     BUILD_TAG = $(shell git show -s HEAD --format="%h")
 endif
 
-docker-build:
-	docker build --rm --tag sweetpotato-highlightexam-backend:latest .
+docker-build-dev:
+	docker build --rm --tag sweetpotato-highlightexam-backend-dev:latest .
