@@ -1,6 +1,7 @@
 FROM golang:1.17.0-alpine AS builder
 WORKDIR /app
 ADD . ./
+RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN go mod download && \
     go build -o ./sweetpotato-highlightexam-backend
 
