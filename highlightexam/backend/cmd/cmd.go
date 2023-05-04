@@ -55,7 +55,7 @@ func run(cmd *cobra.Command, args []string) {
 
 	ctx := context.Background()
 	go func() {
-		mylogger.Info(ctx, "government_exam server listen address", zap.String("address", config.AppCfg.ListenAddress))
+		mylogger.Info(ctx, "highlight_exam server listen address", zap.String("address", config.AppCfg.ListenAddress))
 		s := &http.Server{
 			Addr:         config.AppCfg.ListenAddress,
 			Handler:      router.New(),
@@ -63,7 +63,7 @@ func run(cmd *cobra.Command, args []string) {
 			WriteTimeout: config.AppCfg.WriteTimeout,
 		}
 		if err = s.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			mylogger.Fatal(ctx, "government_exam server listen fail: ", zap.Error(err))
+			mylogger.Fatal(ctx, "highlight_exam server listen fail: ", zap.Error(err))
 		}
 
 		defer func() {

@@ -14,17 +14,17 @@ func New() *gin.Engine {
 	engine.Use(httptransfer.RequestIdMiddleware())
 
 	engine.Use(httptransfer.NotStrictAuthorizationMiddleware(config.AppCfg.JwtSecret))
-	engine.POST("/api/login/wechat", handler.LoginHandler.WechatLogin)
-	engine.GET("/api/subject/list", handler.SubjectHandler.List)
-	engine.GET("/api/subject/detail", handler.SubjectHandler.Detail)
+	engine.POST("/hl_api/login/wechat", handler.LoginHandler.WechatLogin)
+	engine.GET("/hl_api/subject/list", handler.SubjectHandler.List)
+	engine.GET("/hl_api/subject/detail", handler.SubjectHandler.Detail)
 
 	engine.Use(httptransfer.StrictAuthorizationMiddleware(config.AppCfg.JwtSecret))
-	engine.GET("/api/user/detail", handler.UserHandler.Detail)
-	engine.PUT("/api/subject/study", handler.SubjectHandler.Study)
-	engine.PUT("/api/user/study_num_edit", handler.UserHandler.StudyNumEdit)
-	engine.GET("/api/study/record", handler.StudyHandler.RecordList)
-	engine.GET("/api/study/knowledge", handler.StudyHandler.KnowledgeList)
-	engine.POST("/api/study/doing", handler.StudyHandler.Doing)
+	engine.GET("/hl_api/user/detail", handler.UserHandler.Detail)
+	engine.PUT("/hl_api/subject/study", handler.SubjectHandler.Study)
+	engine.PUT("/hl_api/user/study_num_edit", handler.UserHandler.StudyNumEdit)
+	engine.GET("/hl_api/study/record", handler.StudyHandler.RecordList)
+	engine.GET("/hl_api/study/knowledge", handler.StudyHandler.KnowledgeList)
+	engine.POST("/hl_api/study/doing", handler.StudyHandler.Doing)
 
 	return engine
 }

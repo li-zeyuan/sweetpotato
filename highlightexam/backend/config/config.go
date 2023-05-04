@@ -36,7 +36,7 @@ func LoadConfigFile(cfgPath string) error {
 		return err
 	}
 
-	log.Println("	INFO	tracing_query config: ", conf)
+	log.Println("	INFO	highlight_exam config: ", conf)
 	cfg := withDefaultCfg(conf)
 	err = verifyCfg(cfg)
 	if err != nil {
@@ -56,7 +56,7 @@ func withDefaultCfg(cfg Config) *Config {
 		cfg.WriteTimeout = time.Second * 5
 	}
 
-	log.Println("	INFO	tracing_query with default config: ", cfg)
+	log.Println("	INFO	highlight_exam with default config: ", cfg)
 	return &cfg
 }
 
