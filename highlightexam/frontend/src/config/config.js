@@ -1,6 +1,6 @@
 export default {
-    // apiHost: "https://highlightexam.lizeyuan.ltd",
-    apiHost: "http://127.0.0.1:17000",
+    apiHost: "https://highlightexam.lizeyuan.ltd",
+    // apiHost: "http://127.0.0.1:17000",
 
     notNeedTokenUrl: [
         '/hl_api/login/wechat',
