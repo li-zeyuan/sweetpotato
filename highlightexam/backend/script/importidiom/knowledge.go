@@ -9,7 +9,6 @@ import (
 	"github.com/li-zeyuan/common/mysqlstore"
 	"github.com/li-zeyuan/common/sequence"
 	"github.com/li-zeyuan/common/utils"
-	"github.com/li-zeyuan/sun/highlightexam/onrequest"
 	"github.com/li-zeyuan/sweetpotato/highlightexam/backend/model"
 )
 

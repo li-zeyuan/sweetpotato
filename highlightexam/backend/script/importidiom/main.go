@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/li-zeyuan/common/utils"
-	"github.com/li-zeyuan/sun/highlightexam/onrequest"
 	"github.com/li-zeyuan/sweetpotato/highlightexam/backend/testdata"
 )
 
@@ -61,10 +60,10 @@ func handle(task *Task, idioms []string) error {
 			return err
 		}
 
-		IdiomList, err := onrequest.Handle(batchIdioms)
-		if err != nil {
-			return err
-		}
+		//IdiomList, err := onrequest.Handle(batchIdioms)
+		//if err != nil {
+		//	return err
+		//}
 
 		err = createKnowledge(subject.ID, IdiomList)
 		if err != nil {
