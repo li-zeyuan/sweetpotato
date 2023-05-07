@@ -18,7 +18,7 @@ func (u *User) GetByOpenid(ctx context.Context, openid string) (*model.UserProfi
 	err := mysqlstore.Db.Table(model.TableNameUserProfile).
 		WithContext(ctx).
 		Where("openid = ?", openid).
-		First(m).Error
+		Find(m).Error
 	if err != nil {
 		mylogger.Error(ctx, "get user by openid error: ", zap.Error(err))
 		return nil, err

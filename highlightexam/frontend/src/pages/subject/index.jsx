@@ -106,7 +106,6 @@ export default class Index extends Component {
                       }}
                     >详情</AtButton>
                   </View>
-
                 )
               })
             }

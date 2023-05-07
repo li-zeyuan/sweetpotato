@@ -116,9 +116,18 @@ export default class Index extends Component {
   }
 
   forgetOnClick = () => {
-    if (this.state.knowledge.id === 0) {
+    const token = store.Get(store.TokenKey)
+    if (!token) {
       Taro.navigateTo({
         url: '/pages/login/index'
+      })
+
+      return
+    }
+
+    if (this.state.knowledge.id === 0) {
+      Taro.switchTab({
+        url: '/pages/subject/index'
       })
     } else if (this.state.knowledge.id === mEnum.FinishKnowledgeID) {
       this.studyFinish()
@@ -141,13 +150,20 @@ export default class Index extends Component {
         knowledge: tailK
       })
     }
-
-
   }
   knowOnClick = () => {
-    if (this.state.knowledge.id === 0) {
+    const token = store.Get(store.TokenKey)
+    if (!token) {
       Taro.navigateTo({
         url: '/pages/login/index'
+      })
+
+      return
+    }
+
+    if (this.state.knowledge.id === 0) {
+      Taro.switchTab({
+        url: '/pages/subject/index'
       })
 
       return

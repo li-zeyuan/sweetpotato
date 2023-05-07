@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { View, Text, Input, Image } from '@tarojs/components'
+import { View, Text, Input } from '@tarojs/components'
 import './index.less'
 import { AtAvatar, AtIcon } from 'taro-ui'
 import Taro from '@tarojs/taro'

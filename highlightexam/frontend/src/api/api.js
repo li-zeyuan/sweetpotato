@@ -3,7 +3,7 @@ import request from "../utils/request";
 export function wxLogin(data) {
     return request(
         'post',
-        '/api/login/wechat',
+        '/hl_api/login/wechat',
         data
     )
 }
@@ -11,7 +11,7 @@ export function wxLogin(data) {
 export function userProfile(data) {
     return request(
         'get',
-        '/api/user/detail',
+        '/hl_api/user/detail',
         data
     )
 }
@@ -19,7 +19,7 @@ export function userProfile(data) {
 export function studyrecord(data) {
     return request(
         'get',
-        '/api/study/record',
+        '/hl_api/study/record',
         data
     )
 }
@@ -27,7 +27,7 @@ export function studyrecord(data) {
 export function subjectList(data) {
     return request(
         'get',
-        '/api/subject/list',
+        '/hl_api/subject/list',
         data
     )
 }
@@ -35,7 +35,7 @@ export function subjectList(data) {
 export function study(data) {
     return request(
         'put',
-        '/api/subject/study',
+        '/hl_api/subject/study',
         data
     )
 }
@@ -43,7 +43,7 @@ export function study(data) {
 export function subjectDetail(data) {
     return request(
         'get',
-        '/api/subject/detail',
+        '/hl_api/subject/detail',
         data
     )
 }
@@ -51,7 +51,7 @@ export function subjectDetail(data) {
 export function knowledgeList(data) {
     return request(
         'get',
-        '/api/study/knowledge',
+        '/hl_api/study/knowledge',
         data
     )
 }
@@ -59,7 +59,7 @@ export function knowledgeList(data) {
 export function studyDoing(data) {
     return request(
         'post',
-        '/api/study/doing',
+        '/hl_api/study/doing',
         data
     )
 }

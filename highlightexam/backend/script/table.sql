@@ -38,7 +38,7 @@ create table if not exists knowledge
     name        varchar(128) not null default '',
     description text,
     other       varchar(512) not null default '{}',
-    index (subject_id)
+    unique (subject_id, name)
 ) ENGINE = INNODB;
 
 create table if not exists study_record

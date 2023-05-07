@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	model2 "github.com/li-zeyuan/sweetpotato/highlightexam/backend/model"
 	"time"
 
 	"github.com/li-zeyuan/common/external"
@@ -13,7 +12,7 @@ import (
 	"github.com/li-zeyuan/common/utils"
 	"github.com/li-zeyuan/sweetpotato/highlightexam/backend/config"
 	"github.com/li-zeyuan/sweetpotato/highlightexam/backend/dao"
-	"gorm.io/gorm"
+	model2 "github.com/li-zeyuan/sweetpotato/highlightexam/backend/model"
 )
 
 var Login = loginService{}
@@ -28,19 +27,20 @@ func (l *loginService) WeChatLogin(ctx context.Context, req *model.WeChatLoginRe
 	}
 
 	userProfile, err := dao.D.User.GetByOpenid(ctx, wxSession.OpenId)
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil {
 		return "", err
 	}
 	if userProfile != nil && userProfile.DeletedAt != 0 {
 		return "", httptransfer.ErrorLoginForbid
 	}
-	if err == gorm.ErrRecordNotFound {
+	if userProfile.ID == 0 {
 		userProfile = new(model2.UserProfileTable)
 		userProfile.ID = sequence.NewID()
-		userProfile.Name = fmt.Sprintf("husband_%d", userProfile.ID%1000)
+		userProfile.Name = fmt.Sprintf("official_%d", userProfile.ID%1000)
 		userProfile.Openid = wxSession.OpenId
 		userProfile.SessionKey = wxSession.SessionKey
 		userProfile.StudyNum = model2.DefaultStudyNum
+		userProfile.StudyLastTime = time.Date(1970, 1, 1, 0, 0, 1, 0, time.UTC)
 		err = dao.D.User.Save(ctx, []*model2.UserProfileTable{userProfile})
 		if err != nil {
 			return "", err
