@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.9.0
-	github.com/li-zeyuan/common v0.0.0-20230507100748-c49cd202d003
+	github.com/li-zeyuan/common v0.0.0-20230507103442-e01baa3dd789
 	github.com/spf13/cobra v1.6.1
 	github.com/stretchr/testify v1.8.1
 	go.uber.org/zap v1.24.0
