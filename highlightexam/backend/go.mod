@@ -12,6 +12,8 @@ require (
 	gorm.io/gorm v1.24.5
 )
 
+////replace github.com/li-zeyuan/common => ../../../common
+
 require (
 	github.com/bytedance/sonic v1.8.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
@@ -52,5 +54,3 @@ require (
 	moul.io/zapgorm2 v1.3.0 // indirect
 )
 
-////replace github.com/li-zeyuan/common => ../../../common
-////replace github.com/li-zeyuan/sun => ../../../sun

@@ -11,7 +11,7 @@ import (
 func InitServer() (context.Context, error) {
 	err := config.LoadConfigFile("/Users/zeyuan.li/Desktop/workspace/code/src/github.com/li-zeyuan/sun/deployment/templates/highlightexam-backend-dev/config.yaml")
 	if err != nil {
-		return nil,  err
+		return nil, err
 	}
 
 	mylogger.Init(&config.AppCfg.Logging)
