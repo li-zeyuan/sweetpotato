@@ -6,3 +6,6 @@ endif
 
 docker-build-dev:
 	docker build --rm --tag sweetpotato-highlightexam-backend-dev:latest .
+
+docker-build-pro:
+	docker build --rm --tag sweetpotato-highlightexam-backend-pro:latest .
