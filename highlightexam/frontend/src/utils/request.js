@@ -38,6 +38,11 @@ export default function request(method, url, data) {
             data: (method == 'post') || (method == 'put')  ? data : {},
             header: { 'Authorization': token },
             success: function (res) {
+                if (res.statusCode == 403) {
+                    store.Del(store.TokenKey)
+                    return
+                }
+
                 if (config.skipToLoginCode.includes(res.code)) {
                     Taro.reLaunch({
                         url: '/pages/login/index',

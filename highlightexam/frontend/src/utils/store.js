@@ -22,5 +22,13 @@ export default {
         }
 
         return data
+    },
+    Del(key) {
+        Taro.removeStorage({
+            key: key,
+            success: function (res) {
+                console.log(res)
+            }
+        })
     }
 }

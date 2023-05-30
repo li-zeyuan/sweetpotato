@@ -66,19 +66,37 @@ export default class Index extends Component {
         })
     }
 
+    loginOnClick = () => {
+        Taro.navigateTo({
+            url: '/pages/login/index'
+        })
+    }
+
     render() {
         const { portrait, name, uid, gender, currentSubjectId, studyTotalDay, studyNum } = this.state
+        const isLoggedIn = store.Get(store.TokenKey)
 
         return (
             <View className='index'>
                 <View className='profile'>
-                    <View className='userAvatar'>
-                        <AtAvatar className='avatar' circle image={portrait} size='normal'></AtAvatar>
-                    </View>
-                    <View className='userInfo'>
-                        <Text className='name'>姓名: {name}</Text>
-                        <Text className='uid'>UID: {uid % 10000000}</Text>
-                    </View>
+                    <AtAvatar className='avatar' circle image={portrait} size='normal'></AtAvatar>
+
+                    {
+                        isLoggedIn &&
+                        <View className='userInfo'>
+                            <Text className='name'>姓名: {name}</Text>
+                            <Text className='uid'>UID: {uid}</Text>
+                        </View>
+                    }
+
+                    {
+                       !isLoggedIn &&
+                       <View className='userInfo'>
+                           <Text className='pls_login' onClick={this.loginOnClick}>请登陆 >></Text>
+                       </View> 
+                    }
+
+
                 </View>
 
                 <View id='container'>

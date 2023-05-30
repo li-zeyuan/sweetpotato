@@ -1,9 +1,9 @@
 import Taro from '@tarojs/taro'
 import { Component } from 'react'
-import { AtButton, AtIcon,AtAvatar } from 'taro-ui'
+import { AtButton, AtIcon, AtAvatar } from 'taro-ui'
 import { wxLogin } from '../../api/api'
 import store from '../../utils/store'
-import { View, Text,Image } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import * as images from '../../assets/images/index';
 import './index.less'
 
@@ -18,7 +18,13 @@ export default class Index extends Component {
 
     componentDidHide() { }
 
-    onMpLoginClick() {
+    onLoginCancelClick = () => {
+        Taro.navigateBack({
+            delta: 1,
+        })
+    }
+
+    onLoginClick = () => {
         Taro.showLoading({
             title: "登陆中",
         })
@@ -44,9 +50,9 @@ export default class Index extends Component {
                                 })
                             }
                         })
-                        .catch((res) => {
+                        .catch((err) => {
                             Taro.showToast({
-                                title: res.errMsg,
+                                title: err.errMsg,
                                 icon: 'error',
                                 duration: 500,
                             })
@@ -65,13 +71,16 @@ export default class Index extends Component {
 
     render() {
         return (
-            <View className='container'>
-                <AtButton className='button' type='primary' size='large' circle onClick={this.onMpLoginClick}>
-                    <View className='loginbtn-inner'>
-                        <AtIcon value='star' size='20' color='#fff'></AtIcon>
-                        <Text className='loginbtn-text'>微信授权登录</Text>
-                    </View>
-                </AtButton>
+            <View className='index'>
+                <Image className='logo' src={images.logo} />
+                <View className='container'>
+                    <AtButton className='button' type='secondary' size='normal' circle onClick={this.onLoginCancelClick}>
+                            <Text className='cancel-text'>取消</Text>
+                    </AtButton>
+                    <AtButton className='button' type='primary' size='normal' circle onClick={this.onLoginClick}>
+                            <Text className='loginbtn-text'>微信登录</Text>
+                    </AtButton>
+                </View>
             </View>
         )
     }
