@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { study, subjectList } from '../../api/api'
+import { study, restudy, subjectList } from '../../api/api'
 import Taro from '@tarojs/taro'
 import { AtButton, AtDivider } from 'taro-ui'
 import * as images from '../../assets/images/index'
@@ -64,6 +64,37 @@ export default class Index extends Component {
       })
   }
 
+  handleReStudyClick = (id) => {
+    Taro.showModal({
+      title: '提示',
+      content: '重学将清空本题库学习记录，并重新学习',
+      success: function (modalRes) {
+        if (modalRes.confirm) {
+          restudy({
+            id: id
+          })
+            .then((res) => {
+              if (res.data.code === 0) {
+                Taro.switchTab({
+                  url: '/pages/index/index'
+                })
+              }
+            })
+            .catch((err) => {
+              Taro.showToast({
+                title: err.message,
+                icon: 'error',
+                duration: 500,
+              })
+            })
+        } else if (modalRes.cancel) {
+        }
+      }
+    })
+
+    
+  }
+
   render() {
     const { studying, others } = this.state
     return (
@@ -94,6 +125,15 @@ export default class Index extends Component {
                         this.handleStudyClick(item.id)
                       }}
                     >学习</AtButton>
+                    <AtButton
+                      className='other_subject_list_item_restudy_btn'
+                      circle
+                      type='secondary'
+                      size='small'
+                      onClick={() => {
+                        this.handleReStudyClick(item.id)
+                      }}
+                    >重学</AtButton>
                     <AtButton
                       className='other_subject_list_item_detail_btn'
                       circle

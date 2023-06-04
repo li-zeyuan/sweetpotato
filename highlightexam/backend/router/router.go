@@ -21,6 +21,7 @@ func New() *gin.Engine {
 	engine.Use(httptransfer.StrictAuthorizationMiddleware(config.AppCfg.JwtSecret))
 	engine.GET("/hl_api/user/detail", handler.UserHandler.Detail)
 	engine.PUT("/hl_api/subject/study", handler.SubjectHandler.Study)
+	engine.PUT("/hl_api/subject/restudy", handler.SubjectHandler.ReStudy)
 	engine.PUT("/hl_api/user/study_num_edit", handler.UserHandler.StudyNumEdit)
 	engine.GET("/hl_api/study/record", handler.StudyHandler.RecordList)
 	engine.GET("/hl_api/study/knowledge", handler.StudyHandler.KnowledgeList)

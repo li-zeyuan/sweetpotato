@@ -101,3 +101,25 @@ func (s *subjectService) Study(ctx context.Context, uid int64, req *model.Subjec
 
 	return nil
 }
+
+func (s *subjectService) ReStudy(ctx context.Context, uid int64, req *model.ReSubjectStudyReq) error {
+	subject, err := dao.D.Subject.GetById(ctx, req.ID)
+	if err != nil {
+		return err
+	}
+
+	fieldMap := map[string]interface{}{
+		"current_subject_id": subject.ID,
+	}
+	err = dao.D.User.Update(ctx, uid, fieldMap)
+	if err != nil {
+		return err
+	}
+
+	err = dao.D.StudyRecord.Del(ctx, uid, req.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

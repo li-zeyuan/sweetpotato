@@ -7,7 +7,7 @@ const apiHost = config.apiHost
 export default function request(method, url, data) {
     const token = store.Get(store.TokenKey)
     if (!config.notNeedTokenUrl.includes(url) && !token) {
-        Taro.reLaunch({
+        Taro.navigateTo({
             url: '/pages/login/index',
         })
     }
@@ -40,6 +40,7 @@ export default function request(method, url, data) {
             success: function (res) {
                 if (res.statusCode == 403) {
                     store.Del(store.TokenKey)
+                    
                     return
                 }
 

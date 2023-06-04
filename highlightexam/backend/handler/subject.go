@@ -58,3 +58,21 @@ func (s *subject) Study(c *gin.Context) {
 
 	httptransfer.SuccJSONResp(c, struct{}{})
 }
+
+func (s *subject) ReStudy(c *gin.Context) {
+	uid := httptransfer.GetUid(c)
+	req := new(model.ReSubjectStudyReq)
+	err := httptransfer.ParseBody(c, req)
+	if err != nil {
+		httptransfer.ErrJSONResp(c, http.StatusInternalServerError, err)
+		return
+	}
+
+	err = service.Subject.ReStudy(c.Request.Context(), uid, req)
+	if err != nil {
+		httptransfer.ErrJSONResp(c, http.StatusInternalServerError, err)
+		return
+	}
+
+	httptransfer.SuccJSONResp(c, struct{}{})
+}

@@ -81,3 +81,17 @@ func (s *StudyRecord) TodayStudyNum(ctx context.Context, uid int64) (int64, erro
 
 	return num, nil
 }
+
+func (s *StudyRecord) Del(ctx context.Context, uid, subjectId int64) error {
+	err := mysqlstore.Db.Table(model.TableNameStudyRecord).
+		WithContext(ctx).
+		Where("uid = ?", uid).
+		Where("subject_id = ?", subjectId).
+		Delete(&model.StudyRecordTable{}).Error
+	if err != nil {
+		mylogger.Error(ctx, "delete study record error: ", zap.Error(err))
+		return err
+	}
+
+	return nil
+}

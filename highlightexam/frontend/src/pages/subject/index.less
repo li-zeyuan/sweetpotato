@@ -19,18 +19,19 @@
 
     .other_subject_list_item {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap;
         padding: 24px;
 
         .other_subject_list_item_text {
             display: flex;
             flex-direction: column;
-            width: 450px;
+            width: 50%;
             height: 90px;
+            margin-right: 5%;
 
             .other_subject_list_item_name {
-                text-overflow: ellipsis;
+                overflow-y: scroll;
                 white-space: nowrap;
                 color: inherit;
                 font-size: inherit;
@@ -46,8 +47,4 @@
             }
         }
     }
-
-    .other_subject_list_item_study_btn {}
-
-    .other_subject_list_item_detail_btn {}
 }

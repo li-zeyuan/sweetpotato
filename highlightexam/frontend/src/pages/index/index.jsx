@@ -11,6 +11,7 @@ import Studying from '../../components/studying'
 
 export default class Index extends Component {
   state = {
+    isShowAnswer: false,
     isShowTodayCompleted: false,
     studyKnowledgeIndex: 0,
     studying: {
@@ -150,7 +151,12 @@ export default class Index extends Component {
         knowledge: tailK
       })
     }
+
+    this.setState({
+      isShowAnswer: false
+    })
   }
+
   knowOnClick = () => {
     const token = store.Get(store.TokenKey)
     if (!token) {
@@ -229,6 +235,10 @@ export default class Index extends Component {
           duration: 500,
         })
       })
+
+    this.setState({
+      isShowAnswer: false
+    })
   }
 
   studyFinish = () => {
@@ -249,8 +259,14 @@ export default class Index extends Component {
     })
   }
 
+  showAnswerOnClick = () => {
+    this.setState({
+      isShowAnswer: true
+    })
+  }
+
   render() {
-    const { studying, knowledge } = this.state
+    const { studying, knowledge, isShowAnswer } = this.state
 
     return (
       <View className='index' >
@@ -261,10 +277,23 @@ export default class Index extends Component {
         <View className='learning'>
           <Text className='pinyin'>{knowledge.other.pinyin ? "[" + knowledge.other.pinyin + "]" : ""}</Text>
           <Text className='knowledgeName'>{knowledge.name}</Text>
-          <Text className='knowledgeDescription'>{knowledge.description}</Text>
 
-          <AtButton className='buttonKnown' type='primary' circle onClick={this.knowOnClick}>认识</AtButton>
-          <AtButton className='buttonForget' type='secondary' circle onClick={this.forgetOnClick}>忘记</AtButton>
+          {
+            !isShowAnswer &&
+            <View className='answerContainer'>
+              <Text id='clickShowAnswer' onClick={this.showAnswerOnClick}>点击显示答案</Text>
+            </View>
+          }
+
+          {
+            isShowAnswer &&
+            <View className='answerContainer'>
+              <Text className='knowledgeDescription'>{knowledge.description}</Text>
+              <AtButton className='buttonKnown' type='primary' circle onClick={this.knowOnClick}>认识</AtButton>
+              <AtButton className='buttonForget' type='secondary' circle onClick={this.forgetOnClick}>忘记</AtButton>
+            </View>
+          }
+
         </View>
       </View >
     )

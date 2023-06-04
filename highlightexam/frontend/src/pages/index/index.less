@@ -12,20 +12,36 @@
 }
 
 .knowledgeName {
-    white-space: nowrap;
     overflow-y: scroll;
-    font-size: 60px;
+    font-size: 6vw;
     text-align: center;
     letter-spacing: 10px;
 }
 
-.knowledgeDescription {
-    overflow:hidden;
-    height: 250px;
-    font-size: 30px;
-    margin-top: 2%;
+.answerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 500px;
+}
+
+#clickShowAnswer {
+    height: 100%;
     text-align: center;
+    line-height: 400px;
+    font-size: 30px;
+    color: #6190E8;
+}
+
+.knowledgeDescription {
+    overflow:scroll;
+    height: 300px;
+    font-size: 30px;
     color: #999;
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: left;
 }
 
 .buttonKnown {

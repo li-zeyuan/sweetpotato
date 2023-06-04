@@ -22,3 +22,7 @@ type SubjectDetailReq struct {
 type SubjectStudyReq struct {
 	ID int64 `json:"id" validate:"required"`
 }
+
+type ReSubjectStudyReq struct {
+	ID int64 `json:"id" validate:"required"`
+}

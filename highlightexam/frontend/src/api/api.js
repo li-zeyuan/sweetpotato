@@ -40,6 +40,14 @@ export function study(data) {
     )
 }
 
+export function restudy(data) {
+    return request(
+        'put',
+        '/hl_api/subject/restudy',
+        data
+    )
+}
+
 export function subjectDetail(data) {
     return request(
         'get',

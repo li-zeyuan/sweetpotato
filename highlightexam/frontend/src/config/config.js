@@ -1,5 +1,6 @@
 export default {
-    apiHost: "https://highlightexam.lizeyuan.ltd",
+    // apiHost: "https://highlightexam.lizeyuan.ltd",
+    apiHost: "http://39.108.101.229:7001",
     // apiHost: "http://127.0.0.1:7001",
 
     notNeedTokenUrl: [
